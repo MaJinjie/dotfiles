@@ -24,7 +24,7 @@ elif (($+zopts[-p])); then
     done
 elif (($+zopts[-d])); then
     results=( ${(f)"$( dirs -pl | sed -n '1!p' | sed -e '/^\/$/d' -e '/^\/home$/d' -e '/^'${HOME//\//\\\/}'$/d' -e 's/$/\//' )"} )
-elif (($#z_strategy || $# > 1)); then
+elif (($#z_strategy)) || (($# > 1)) || [[ $1 == *?/ ]] ; then
     results=( ${${(f)"$( _z 2>&1 -${(j::)z_strategy#-}l | tac | sed -e 's/^[^\/]*//' -e 's/$/\//' )"}:#$PWD/} )
 else
     builtin cd "$@"
