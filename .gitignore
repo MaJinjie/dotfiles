@@ -1,0 +1,4 @@
+.bkt/
+/.config/zsh/zsh.d/*private.zsh
+/.config/zsh/cache/
+/.config/zsh/data/

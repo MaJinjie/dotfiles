@@ -103,6 +103,9 @@ zt 0a light-mode for \
 extractf 60 && zt 0a light-mode null id-as'zshd' nocd for multisrc="$Zdirs[home]/zsh.d/${(@)^sourcef}" zdharma-continuum/null
 # =======================================================================
 ## Second Load
+# =======================================================================
+extractf 70 && zt 0a light-mode null id-as'zshd' nocd for multisrc="$Zdirs[home]/zsh.d/${(@)^sourcef}" zdharma-continuum/null
+# =======================================================================
 zt 0b light-mode for \
     atinit'export _RAD_NO_ECHO=1; ' \
     eval'rualdi init zsh' \
@@ -178,7 +181,7 @@ zt 0b light-mode pick'/dev/null' for \
 
 
 # =======================================================================
-extractf 70 && zt 0b light-mode null id-as'zshd' nocd for multisrc="$Zdirs[home]/zsh.d/${(@)^sourcef}" zdharma-continuum/null
+extractf 80 && zt 0b light-mode null id-as'zshd' nocd for multisrc="$Zdirs[home]/zsh.d/${(@)^sourcef}" zdharma-continuum/null
 # =======================================================================
 ## Third Load
 zt 0c light-mode for \
@@ -203,15 +206,12 @@ zt 0c light-mode for \
     trigger-load'!zman'\
         mattmc3/zman
 
-zt 0c as'completions' for \
-    https://github.com/eza-community/eza/blob/main/completions/zsh/_eza \
-    https://github.com/Jarsop/rualdi/blob/master/completions/{_rualdi,_rualdi_funcs}
-    
-zt 0c as'null' lbin for \
-    https://github.com/junegunn/fzf/blob/master/bin/fzf-tmux
-
-zt 0c id-as'github' pick'/dev/null' for \
-    lman restic/restic 
+## Supplement
+zt 0c light-mode  pick'/dev/null' for \
+    id-as'supplement/restic' lman restic/restic \
+    id-as'supplement/fzf' lbin'bin/*' lman junegunn/fzf \
+    id-as'supplement/rualdi' completions Jarsop/rualdi \
+    id-as'supplement/eza' completions lman eza-community/eza
 
 # =======================================================================
 extractf 90 && zt 0c light-mode null id-as'zshd' nocd for multisrc="$Zdirs[home]/zsh.d/${(@)^sourcef}" zdharma-continuum/null

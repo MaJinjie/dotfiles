@@ -1,0 +1,30 @@
+#!/usr/bin/env zsh
+
+{ alias ff > /dev/null && type rm > /dev/null } || {
+    print_msg error "alias ff is not exists"
+    return 2
+}
+
+local zopts results
+
+zparseopts -E -F -D -a zopts -- a p s l u || {
+    print_msg error "parse error"
+    return 1
+}
+
+if (($#zopts == 0)); then
+    results=$(ff --output "$@")
+    [[ -n $results ]] && {
+        rm -- ${(f)results}
+        print -P "==================================%B%F{green}Remove%b%f======================================="
+        lscolors <<<"$results"
+    }
+else
+    results=$(rm ${zopts:#-u} | tac | startup_fzf --popup --prompt 'Unbury> ' --delimiter '/' --nth '-1,-2,-3' )
+    [[ -n $results ]] && if (($zopts[(I)-u])); then
+        rm -u ${${(f)results}##[^/]#}
+    else
+        print $results
+    fi
+
+fi

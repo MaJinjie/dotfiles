@@ -1,0 +1,28 @@
+#!/usr/bin/env zsh
+
+# cann't pass via |
+# fzf |  cd 
+# options  -q --quiet
+
+local paths=() nopaths=() result rmidx fopts zopts
+
+zparseopts -D -F -E -A zopts -- -q -popup || { print_msg error "param is error"; return 1 }
+
+rmidx=${@[(i)--]}
+for item in "${@:1:$((rmidx-1))}" "${@:$((rmidx+1))}"; do 
+    [[ -d $item ]] && paths+=$item || nopaths+=$item
+done
+
+(($#nopaths && ! $+zopts[-q])) && {
+    print_msg error "(${(@qqq)nopaths}) is not directory[es]"
+    return 1
+}
+
+fopts="
+$FZF_DEFAULT_OPTS
++m
+--prompt 'Cd> '
+--scheme=path --tiebreak=end,chunk,index
+"
+result=$(print -l -- $paths | lscolors | FZF_DEFAULT_OPTS="$fopts" startup_fzf ${+zopts[--popup]+--popup})
+{ (($? == 0)) && [[ -n $result ]] } && builtin cd $result

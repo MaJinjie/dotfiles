@@ -1,0 +1,8 @@
+#!/usr/bin/env zsh
+
+# run ls on every cd
+
+[[ "$OLDPWD" != "$PWD" ]] && {
+    #打印一天之内访问（accessed)的文件或隐藏文件
+    eza -adF --icons --group-directories-first -- *(Nm-1[1,15])
+}

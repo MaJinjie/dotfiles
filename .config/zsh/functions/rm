@@ -1,0 +1,11 @@
+#!/usr/bin/env zsh
+
+if (($+commands[rip] && EUID)); then 
+    rip "$@"
+else 
+    command rm -rIv "$@"
+fi
+
+set +x
+
+

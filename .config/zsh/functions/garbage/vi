@@ -1,0 +1,26 @@
+#!/usr/bin/env zsh 
+
+local rmdix _path fopts result
+
+rmdix=${@[(i)--]}
+
+fopts="
+$FZF_DEFAULT_OPTS
++m
+--select-1 --exit-0
+--prompt '> '
+--exact --scheme path
+--tiebreak 'length,end,chunk'
+"
+if ((rmdix-1 == 0)) || [[ $1 == '.' ]]; then
+    _path='.'
+elif [[ $1 == .## ]]; then
+    _path="${${1#.}//./../}"
+else
+    _path=$(lax -P "${@:1:$((rmdix-1))}")
+fi
+
+result=$(print -- $_path | FZF_DEFAULT_OPTS="$fopts" fzf)
+
+
+(($? != 130)) && $EDITOR "${@:$((rmdix+1))}" "${(@f)result}"

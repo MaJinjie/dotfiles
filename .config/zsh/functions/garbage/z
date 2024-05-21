@@ -1,0 +1,61 @@
+#!/usr/bin/env zsh
+
+type _z > /dev/null && type fzf > /dev/null || { 
+    print_msg error "rupa/z plugin | fzf program is not exists"
+    return 2
+}
+
+local zopts fopts z_strategy results=() result
+
+zparseopts -E -F -D -A zopts -- c=z_strategy r=z_strategy t=z_strategy l=z_strategy p d h || {
+    print_msg error "params parse error"
+    return 1
+}
+
+# 1 list sources
+if (($+zopts[-h])); then
+    print_msg help "cmd -[crtlpdh]"
+    return 0
+elif (($+zopts[-p])); then
+    result=${PWD:h}
+    until [[ $result == / || $result == /home || $result == $HOME ]]; do
+        results+=$result/
+        result=${result:h}
+    done
+elif (($+zopts[-d])); then
+    results=( ${(f)"$( dirs -pl | sed -n '1!p' | sed -e '/^\/$/d' -e '/^\/home$/d' -e '/^'${HOME//\//\\\/}'$/d' -e 's/$/\//' )"} )
+elif (($#z_strategy)); then
+    results=( ${${(f)"$( _z 2>&1 -${(j::)z_strategy#-}l | tac | sed -e 's/^[^\/]*//' -e 's/$/\//' )"}:#$PWD/} )
+else
+    builtin cd "$@"
+    return 0
+fi
+
+# 2 filter
+fopts="
+$FZF_DEFAULT_OPTS
++m -0
+--prompt 'Cd> '
+--delimiter / --nth '-1,-2'
+"
+
+if (($#)); then
+    results=$(eval 'print -l -- ${(M)results:#'"${${@[1]:#/*}:+*}${(j:*:)@}${${@[-1]:#*/}:+*}}")
+else
+    results=$(print -l -- $results | lscolors | FZF_DEFAULT_OPTS="$fopts" startup_fzf --popup)
+fi
+
+results=( ${(f)results} )
+
+# 3 handle
+
+if (($#results == 0)); then
+    print_msg warn "$@ is not match|select any path"
+    result=
+elif (($#results == 1)); then
+    result=$results
+else
+    select result in ${results:0:3}; do break; done
+fi
+
+[[ -n $result ]] && builtin cd $result

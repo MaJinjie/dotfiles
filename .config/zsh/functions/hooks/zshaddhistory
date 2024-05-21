@@ -1,0 +1,7 @@
+#!/usr/bin/env zsh 
+
+local -r line=${${1%$'\n'}%% #}
+
+(($#line >= 5 && $#line <= 80)) || return 2
+[[ -z $HISTORY_EXACT_IGNORE[(r)$line] ]] || return 2
+[[ -z $HISTORY_PREFIX_IGNORE[(r)$line*] ]] || return 2
