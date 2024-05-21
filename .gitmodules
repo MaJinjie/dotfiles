@@ -1,5 +1,5 @@
-[submodule ".config/zsh/bin"]
-	path = .config/zsh/bin
+[submodule ".config/zsh/scripts"]
+	path = .config/zsh/scripts
 	url = git@github.com:MaJinjie/zsh-scripts.git
 [submodule ".config/nvim"]
 	path = .config/nvim
