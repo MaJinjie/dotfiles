@@ -40,37 +40,41 @@ export ZINIT_HOME="$XDG_DATA_HOME/zinit"
 export Xdirs Zdirs Mdirs
 
 typeset -A Xdirs=(
-    conf "$XDG_CONFIG_HOME"              
-    data "$XDG_DATA_HOME"                 
-    cache "$XDG_CACHE_HOME"                
-    state "$XDG_STATE_HOME"          
-    desktop "$HOME/.desktop"             
-    download "$XDG_DATA_HOME/Downloads"  
-    template "$XDG_DATA_HOME/Templates" 
-    public "$XDG_DATA_HOME/Public"  
-    document "$XDG_DATA_HOME/Documents" 
-    music "$XDG_DATA_HOME/Music"         
-    picture "$XDG_DATA_HOME/Pictures"   
-    video "$XDG_DATA_HOME/Videos"       
+    conf        "$XDG_CONFIG_HOME"              
+    data        "$XDG_DATA_HOME"                 
+    cache       "$XDG_CACHE_HOME"                
+    state       "$XDG_STATE_HOME"          
+    desktop     "$XDG_DESKTOP_DIR"             
+    download    "$XDG_DOWNLOAD_DIR"  
+    template    "$XDG_TEMPLATES_DIR" 
+    public      "$XDG_PUBLICSHARE_DIR"  
+    document    "$XDG_DOCUMENTS_DIR" 
+    music       "$XDG_MUSIC_DIR"         
+    picture     "$XDG_PICTURES_DIR"   
+    video       "$XDG_VIDEOS_DIR"       
+
+    local       "/usr/local"
+    bin         "/usr/local/bin"
 )
+
 typeset -A Zdirs=(
-    home "$ZDOTDIR"
-    bin "$ZDOTDIR/bin"
-    man "$ZDOTDIR/man"
-    comp "$ZDOTDIR/completions"
-    func "$ZDOTDIR/functions"
-    theme "$ZDOTDIR/themes"
-    cache "$ZDOTDIR/cache"
-    data "$ZDOTDIR/data"
-    pdata "$XDG_DATA_HOME/zplug"
-    pcache "$XDG_CACHE_HOME/zplug"
+    home        "$ZDOTDIR"
+    man         "$ZDOTDIR/man"
+    comp        "$ZDOTDIR/completions"
+    func        "$ZDOTDIR/functions"
+    theme       "$ZDOTDIR/themes"
+    cache       "$ZDOTDIR/cache"
+    data        "$ZDOTDIR/data"
+    script      "$ZDOTDIR/scripts"
+    pdata       "$XDG_DATA_HOME/zplug"
+    pcache      "$XDG_CACHE_HOME/zplug"
     
 )
 
 typeset -A Mdirs=(
-    proj "$HOME/projects"
-    dot "$HOME/dotfiles"
-    note "$HOME/notes"
+    proj        "$HOME/projects"
+    dot         "$HOME/dotfiles"
+    note        "$HOME/notes"
 )
 
 
@@ -79,7 +83,7 @@ typeset -A Mdirs=(
 path=(
     "$CARGO_HOME/bin"
     "$GEM_HOME/bin"
-    "$Zdirs[bin]"
+    "$Zdirs[script]"
     "${(@)path}"
 )
 
