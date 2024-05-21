@@ -1,0 +1,3 @@
+[submodule ".config/zsh/bin"]
+	path = .config/zsh/bin
+	url = git@github.com:MaJinjie/zsh-scripts.git
