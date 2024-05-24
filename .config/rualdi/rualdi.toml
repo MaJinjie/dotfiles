@@ -1,0 +1,19 @@
+[aliases]
+# config
+conf = "$XDG_CONFIG_HOME"
+nvim = "$XDG_CONFIG_HOME/nvim"
+zsh = "$ZDOTDIR"
+
+data = "$XDG_DATA_HOME"
+astro = "$XDG_DATA_HOME/nvim/lazy/AstroNvim/lua"
+leet = "$XDG_DATA_HOME/nvim/leetcode"
+
+[environment]
+
+[colors]
+alias = "yellow"
+path = "magenta"
+separator = "bright cyan"
+
+[alias_hash]
+HOME = "$HOME"
