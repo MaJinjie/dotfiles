@@ -1,7 +1,7 @@
 enable_nightly_info = true
 enable_release_build = true
-downloads_location = "$Xdirs[data]/bob"
-installation_location = "$Xdirs[bin]"
-version_sync_file_location = "$Xdirs[conf]/nvim/.version"
+downloads_location = "$XDG_DATA_HOME/bob"
+installation_location = "$ZPFX/bin"
+version_sync_file_location = "$XDG_CONFIG_HOME/nvim/.version"
 rollback_limit = 5
 github_mirror = "https://github.com"
