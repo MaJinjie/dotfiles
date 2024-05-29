@@ -9,12 +9,12 @@ declare -A ZINIT=(
     PLUGINS_DIR     "$ZINIT_HOME/plugins"
     COMPLETIONS_DIR "$ZINIT_HOME/completions"
     SNIPPETS_DIR    "$ZINIT_HOME/snippets"
-    ZCOMPDUMP_PATH  "$ZDOTDIR/cache/zcompdump-$HOST-$ZSH_VERSION"
+    ZCOMPDUMP_PATH  "$Xdirs[cache]/zsh/zcompdump-$HOST-$ZSH_VERSION"
     LIST_COMMAND    "tree -C"
     COMPINIT_OPTS   -C
     NO_ALIASES 1
 )
-local -a sourcef files=( $Zdirs[home]/zsh.d/*(N.:t) ); files=( ${(on)files} )
+local -a sourcef files=( $Zdirs[zsh.d]/*(N.:t) ); files=( ${(on)files} )
 function zt() { zinit depth'3' ${1/#[0-9][a-c]/wait"${1}"} lucid "${@:2}"; }
 function extractf () {
     local digit=$1
@@ -33,7 +33,6 @@ function extractf () {
 {
   if [[ ! -d $ZINIT[BIN_DIR]/.git ]]; then
       print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
-      ((! $+commands[git])) && command paru -S --noconfirm git
       command mkdir -p "$ZINIT_HOME" && command chmod g-rwX "$ZINIT_HOME"
       command git clone https://github.com/zdharma-continuum/zinit "$ZINIT[BIN_DIR]" && \
           print -P "%F{33} %F{34}Installation successful.%f%b" || \
@@ -54,11 +53,11 @@ zt light-mode for \
         zdharma-continuum/null
 
 # =======================================================================
-extractf 20 && zt light-mode null id-as'zshd' nocd for multisrc="$Zdirs[home]/zsh.d/${(@)^sourcef}" zdharma-continuum/null
+extractf 20 && zt light-mode null id-as'zsh.d' nocd for multisrc="$Zdirs[zsh.d]/${(@)^sourcef}" zdharma-continuum/null
 # =======================================================================
 ## First Load
 # =======================================================================
-extractf 40 && zt 0a light-mode null id-as'zshd' nocd for multisrc="$Zdirs[home]/zsh.d/${(@)^sourcef}" zdharma-continuum/null
+extractf 40 && zt 0a light-mode null id-as'zsh.d' nocd for multisrc="$Zdirs[zsh.d]/${(@)^sourcef}" zdharma-continuum/null
 # =======================================================================
 
 zt 0a light-mode for \
@@ -80,7 +79,6 @@ zt 0a light-mode for \
         rupa/z \
     blockf compile'lib/*f*~*.zwc' \
         Aloxaf/fzf-tab \
-    blockf compile'sources/*.zsh' \
         hlissner/zsh-autopair \
     atload" zstyle :zle:evil-registers:'[A-Za-z%#]' editor $EDITOR
             zstyle :zle:evil-registers:'\*' put  - wl-paste -p
@@ -93,21 +91,22 @@ zt 0a light-mode for \
         zsh-vi-more/evil-registers \
     lbin'(grc|grcat)' \
         MaJinjie/grc \
-    atload'export FORGIT_NO_ALIASES=true' \
+    atload'FORGIT_NO_ALIASES=false' \
+    pick'/dev/null' lbin'bin/*' \
         wfxr/forgit \
     lbin"bin/git-*" \
     src"etc/git-extras-completion.zsh" make"PREFIX=$ZPFX" \
         tj/git-extras
 
 # =======================================================================
-extractf 60 && zt 0a light-mode null id-as'zshd' nocd for multisrc="$Zdirs[home]/zsh.d/${(@)^sourcef}" zdharma-continuum/null
+extractf 60 && zt 0a light-mode null id-as'zsh.d' nocd for multisrc="$Zdirs[zsh.d]/${(@)^sourcef}" zdharma-continuum/null
 # =======================================================================
 ## Second Load
 # =======================================================================
-extractf 70 && zt 0a light-mode null id-as'zshd' nocd for multisrc="$Zdirs[home]/zsh.d/${(@)^sourcef}" zdharma-continuum/null
+extractf 70 && zt 0a light-mode null id-as'zsh.d' nocd for multisrc="$Zdirs[zsh.d]/${(@)^sourcef}" zdharma-continuum/null
 # =======================================================================
 zt 0b light-mode for \
-    atinit'export _RAD_NO_ECHO=1; ' \
+    atinit'_RAD_NO_ECHO=1; ' \
     eval'rualdi init zsh' \
     from'gh-r' lbin \
         Jarsop/rualdi \
@@ -128,7 +127,7 @@ zt 0b light-mode for \
         @sharkdp/lscolors \
     from'gh-r' lbin \
         dimo414/bkt \
-    atclone"**/bob complete zsh > _bob" atpull'%atclone' \
+    atinit'[[ ! -d $Xdirs[data]/bob && ! -e $Xdirs[data]/bob ]] && mkdir $Xdirs[data]/bob' \
     from'gh-r' lbin \
         MordechaiHadad/bob \
     from'gh-r' lbin lman \
@@ -157,18 +156,17 @@ zt 0b light-mode for \
     pick'/dev/null' \
     lbin'lesspipe.sh' lman \
         wofr06/lesspipe \
-    make"YANKCMD='wl-copy -n' PREFIX=$ZPFX install" \
+    make"PREFIX=$ZPFX install" \
     lbin lman \
         mptre/yank \
-    atclone'cargo build --release' atpull'%atclone' \
-    lbin'target/release/lax' \
-        Property404/lax \
     lbin'xurls* -> xurls' from'gh-r' \
         @mvdan/xurls \
     lbin'restic* -> restic' from'gh-r' \
         restic/restic \
     lbin \
-        mrowa44/emojify
+        mrowa44/emojify \
+    lbin from'gh-r' \
+        jesseduffield/lazygit
         
     # from'gh-r' lbin \
     #     umlx5h/zsh-manpage-completion-generator
@@ -181,11 +179,10 @@ zt 0b light-mode pick'/dev/null' for \
 
 
 # =======================================================================
-extractf 80 && zt 0b light-mode null id-as'zshd' nocd for multisrc="$Zdirs[home]/zsh.d/${(@)^sourcef}" zdharma-continuum/null
+extractf 80 && zt 0b light-mode null id-as'zsh.d' nocd for multisrc="$Zdirs[zsh.d]/${(@)^sourcef}" zdharma-continuum/null
 # =======================================================================
 ## Third Load
 zt 0c light-mode for \
-        Freed-Wu/fzf-tab-source \
     pick'/dev/null' mv'./*.zsh-completion -> _revolver' \
     lbin \
         molovo/revolver \
@@ -206,6 +203,8 @@ zt 0c light-mode for \
     trigger-load'!zman'\
         mattmc3/zman
 
+        # Freed-Wu/fzf-tab-source \
+
 ## Supplement
 zt 0c light-mode  pick'/dev/null' for \
     id-as'supplement/restic' lman restic/restic \
@@ -214,9 +213,9 @@ zt 0c light-mode  pick'/dev/null' for \
     id-as'supplement/eza' completions lman eza-community/eza
 
 # =======================================================================
-extractf 90 && zt 0c light-mode null id-as'zshd' nocd for multisrc="$Zdirs[home]/zsh.d/${(@)^sourcef}" zdharma-continuum/null
+extractf 90 && zt 0c light-mode null id-as'zsh.d' nocd for multisrc="$Zdirs[zsh.d]/${(@)^sourcef}" zdharma-continuum/null
 # =======================================================================
 ## Private
 # =======================================================================
-extractf 99 && zt light-mode null id-as'zshd' nocd for multisrc="$Zdirs[home]/zsh.d/${(@)^sourcef}" zdharma-continuum/null
+extractf 99 && zt light-mode null id-as'zsh.d' nocd for multisrc="$Zdirs[zsh.d]/${(@)^sourcef}" zdharma-continuum/null
 # =======================================================================

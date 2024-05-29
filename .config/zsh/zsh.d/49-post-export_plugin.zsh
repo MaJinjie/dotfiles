@@ -20,12 +20,12 @@ export YSU_MESSAGE_POSITION=after
 export YSU_HARDCORE=1
 
 ## 3 Per-directory-history
-export HISTORY_BASE="$Zdirs[pdata]/per_directory_history"
+export HISTORY_BASE="$Xdirs[data]/per_directory_history"
 export HISTORY_START_WITH_GLOBAL=false        
 export PER_DIRECTORY_HISTORY_TOGGLE=^G
 
 ## 4 Rupa/z
-export _Z_DATA=$(create_directory "$Zdirs[pdata]/rupa_z/z")
+export _Z_DATA=$(create_directory "$Xdirs[data]/rupa_z/z")
 export _Z_NO_RESOLVE_SYMLINKS=1          
 export _NO_PROMPT_COMMAND=1
 export _Z_EXCLUDE_DIRS=(

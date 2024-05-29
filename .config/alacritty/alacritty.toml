@@ -1,13 +1,12 @@
 # 导入配置文件
 import = ["~/.config/alacritty/alacritty-theme/themes/base16_default_dark.toml"]
 
-
 # 进入shell时的工作目录
 working_directory = 'None'
 # 实时加载配置
 live_config_reload = true
 
-# shell = {program = "zsh", args = ["-c", "tmux"]}
+# shell = { program = "tmux" }
 
 [env] # 设置当前shell进程的环境变量
 term = 'xterm-256color'
@@ -17,7 +16,7 @@ normal = { family = 'HackNerdFont', style = 'Regular' }
 bold = { family = 'HackNerdFont', style = 'Bold' }
 italic = { family = 'HackNerdFont', style = 'Italic' }
 bold_italic = { family = 'HackNerdFont', style = 'Bold Italic' }
-size = 12
+size = 11.5
 
 [window]
 # 窗口的尺寸 160 45
@@ -79,10 +78,10 @@ hide_when_typing = true
 # mouse = "Middle" | "Left" | "Right" | "Back" | "Forward" | <integer>
 # mods = 'None'| ‘Control' | 'Shift' | 'Alt' ...
 # action = <keyboard.bindings.action>
-bindings = [
-    { mouse = "Right", mods = "None", action = "Paste" },
-    { mouse = "Forward", mods = "None", action = "Copy" },
-]
+# bindings = [
+#     { mouse = "Right", mods = "None", action = "Paste" },
+#     { mouse = "Forward", mods = "None", action = "Copy" },
+# ]
 
 # 终端提示
 [[hints.enabled]]

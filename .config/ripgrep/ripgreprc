@@ -1,5 +1,6 @@
 # Options
 --with-filename
+--line-number
 --no-heading
 --color=always
 --smart-case
@@ -8,7 +9,7 @@
 
 --engine=pcre2
 
---max-columns=80
+--max-columns=120
 --max-columns-preview
 
 # Type add

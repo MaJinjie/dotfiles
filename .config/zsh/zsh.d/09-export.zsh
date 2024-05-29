@@ -16,7 +16,7 @@ typeset -A Const=(
 ## 1 History
 export SAVEHIST=$((2 * 10 ** 3)) # 10_000_000
 export HISTSIZE=$((1.2 * SAVEHIST))
-export HISTFILE="$Zdirs[data]/history"
+export HISTFILE="$Xdirs[data]/history"
 export HIST_STAMPS="yyyy-mm-dd"
 export HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=1 # all search results returned will be unique NOTE: for what
 
@@ -29,7 +29,7 @@ export {ZLS_COLORS,TREE_COLORS}=$LS_COLORS
 export SIMPLE_BACKUP_SUFFIX=bak
 export VERSION_CONTROL=numbered # existing simple
 
-export LESSOPEN="$Zdirs[home]/.lessfilter.sh %s"
+export LESSOPEN="$HOME/.lessfilter.sh %s"
 export MANPAGER="nvim -c 'Man!'"
 
 export TERMINAL="alacritty"
@@ -70,7 +70,7 @@ export FZF_DEFAULT_OPTS="
 --min-height=15
 --tabstop=4
 --scroll-off=2
---history=$(create_directory $Zdirs[pdata]/fzf/history)
+--history=$(create_directory $Xdirs[data]/fzf/history)
 --jump-labels='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 --preview-window :hidden
 --bind='home:beginning-of-line'
@@ -108,14 +108,14 @@ export BKT_CACHE_DIR=.bkt
 ## 4 Dotbare
 export DOTBARE_DIR="$HOME/.cfg"
 export DOTBARE_TREE="$HOME"
-export DOTBARE_BACKUP="$Zdirs[pdata]/dotbare"
+export DOTBARE_BACKUP="$Xdirs[data]/dotbare"
 # export DOTBARE_KEY
 # export DOTBARE_FZF_DEFAULT_OPTS
 # export DOTBARE_PREVIEW=
 # export DOTBARE_DIFF_PAGER
 
 ## 5 Restic
-export RESTIC_REPOSITORY=$Xdirs[data]/backup
+export RESTIC_REPOSITORY=$Xdirs[data]/restic/backup
 
 ## 6 Forgit
 export FORGIT_COPY_CMD="wl-copy"
@@ -123,5 +123,5 @@ export FORGIT_COPY_CMD="wl-copy"
 ## Paths
 export RIPGREP_CONFIG_PATH=$Xdirs[conf]/ripgrep/ripgreprc
 export NAP_CONFIG=$Xdirs[conf]/nap/config.yaml
-export GRAVEYARD=$Zdirs[pdata]/rip
+export GRAVEYARD=$Xdirs[data]/rip
 

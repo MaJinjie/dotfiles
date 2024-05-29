@@ -15,6 +15,12 @@ typeset -A my_aliases
     
 }
 
+(($+commands[rustc])) && {
+    (($+commands[bacon])) && my_aliases+=(
+        rb "bacon"
+    )
+}
+
 (($+commands[nvim])) && my_aliases+=(
     vi "nvim"
 )
