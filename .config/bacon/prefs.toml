@@ -1,6 +1,6 @@
 
 summary = true
-wrap = false
+wrap = true
 reverse = false
 help_line = false
 default_job = "check"
