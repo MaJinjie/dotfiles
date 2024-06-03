@@ -101,15 +101,15 @@ render_timer = false
 # 按键绑定
 [keyboard]
 bindings = [
-    # { key = "V", mods = "Control", mode = '~Vi',  action = 'Paste' },
+    { key = "V", mods = "Control", mode = '~Vi', action = 'Paste' },
     # { key = "P", mods = "None", mode = 'Vi',  action = 'Paste' },
     # { key = "+", mods = "Control", action = "IncreaseFontSize" },
     # { key = "-", mods = "Control", action = "DecreaseFontSize" },
-    { key = "M", mods = "Alt|Shift", action = "ToggleFullscreen" },
+    # { key = "M", mods = "Alt|Shift", action = "ToggleFullscreen" },
     # { key = "N", mods = "Alt", action = "CreateNewWindow" },
     # { key = ",", mods = "Alt", action = "SelectNextTab" },
     # { key = ";", mods = "Alt", action = "SelectNextTab" },
-    { key = "M", mods = "Alt", action = "ToggleMaximized" },
+    # { key = "M", mods = "Alt", action = "ToggleMaximized" },
     # { key = ".", mods = "Alt", action = "Minimize" },
     # 一些移动操作和vi相.
     #   { key = 'F4', action = 'ToggleMaximized' },
