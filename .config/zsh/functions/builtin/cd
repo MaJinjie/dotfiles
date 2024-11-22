@@ -27,11 +27,6 @@ elif (($+zopts[-d])); then
 elif (($#z_strategy || $# > 1)); then
     results=( ${${(f)"$( _z 2>&1 -${(j::)z_strategy#-}l | tac | sed -e 's/^[^\/]*//' -e 's/$/\//' )"}:#$PWD/} )
 else
-    (($# == 1)) && {
-        if [[ $1 == */ && ! -d $1 ]]; then
-            mkdir -p $1 1> /dev/null 2>&1
-        fi
-    }
     builtin cd "$@"
     return 0
 fi
