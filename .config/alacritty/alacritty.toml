@@ -1,10 +1,3 @@
-# 导入配置文件
-import = ["~/.config/alacritty/alacritty-theme/themes/base16_default_dark.toml"]
-
-# 进入shell时的工作目录
-working_directory = 'None'
-# 实时加载配置
-live_config_reload = true
 
 # shell = { program = "tmux" }
 
@@ -101,7 +94,7 @@ render_timer = false
 # 按键绑定
 [keyboard]
 bindings = [
-    { key = "V", mods = "Control", mode = '~Vi', action = 'Paste' },
+    # { key = "V", mods = "Control", mode = '~Vi', action = 'Paste' },
     # { key = "P", mods = "None", mode = 'Vi',  action = 'Paste' },
     # { key = "+", mods = "Control", action = "IncreaseFontSize" },
     # { key = "-", mods = "Control", action = "DecreaseFontSize" },
@@ -237,3 +230,12 @@ bindings = [
     #    { key = 'Semicolon', mods = 'Control', chars = '\x1b[59;5u' },
     #    { key = 'Equals', mods = 'Control', chars = '\x1b[59;5u' },
 ]
+
+[general]
+# 实时加载配置
+live_config_reload = true
+
+# 进入shell时的工作目录
+working_directory = 'None'
+# 导入配置文件
+import = ["~/.config/alacritty/alacritty-theme/themes/base16_default_dark.toml"]
