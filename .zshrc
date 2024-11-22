@@ -1,15 +1,26 @@
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]] {
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 }
-
 ## Zinit
+declare -x ZINIT_HOME="$XDG_DATA_HOME/zinit"
+
+declare -A Zdirs=(
+    home        "$XDG_CONFIG_HOME/zsh"
+    zsh.d       "$XDG_CONFIG_HOME/zsh/zsh.d"
+    man         "$XDG_CONFIG_HOME/zsh/man"
+    comp        "$XDG_CONFIG_HOME/zsh/completions"
+    func        "$XDG_CONFIG_HOME/zsh/functions"
+    theme       "$XDG_CONFIG_HOME/zsh/themes"
+    script      "$XDG_CONFIG_HOME/zsh/scripts"
+)
+
 declare -A ZINIT=(
     HOME_DIR        "$ZINIT_HOME" 
     BIN_DIR         "$ZINIT_HOME/bin" 
     PLUGINS_DIR     "$ZINIT_HOME/plugins"
     COMPLETIONS_DIR "$ZINIT_HOME/completions"
     SNIPPETS_DIR    "$ZINIT_HOME/snippets"
-    ZCOMPDUMP_PATH  "$Xdirs[cache]/zsh/zcompdump-$HOST-$ZSH_VERSION"
+    ZCOMPDUMP_PATH  "$XDG_CACHE_HOME/zsh/zcompdump-$HOST-$ZSH_VERSION"
     LIST_COMMAND    "tree -C"
     COMPINIT_OPTS   -C
     NO_ALIASES 1
@@ -68,10 +79,8 @@ zt 0a light-mode for \
     atload"!_zsh_autosuggest_start" \
         zsh-users/zsh-autosuggestions \
         MichaelAquilina/zsh-you-should-use \
-    atload' bindkey -M viins "^P" history-substring-search-up
-            bindkey -M vicmd "^P" history-substring-search-up
-            bindkey -M viins "^N" history-substring-search-down 
-            bindkey -M vicmd "^N" history-substring-search-down ' \
+    atload' bindkey -e "^P" history-substring-search-up
+            bindkey -e "^N" history-substring-search-down ' \
         zsh-users/zsh-history-substring-search \
         jimhester/per-directory-history \
     atinit'_Z_CMD=zz' \
@@ -89,8 +98,8 @@ zt 0a light-mode for \
             zstyle :zle:evil-registers:'' yank - wl-copy
             zstyle :zle:evil-registers ctrl-r true" \
         zsh-vi-more/evil-registers \
-    lbin'(grc|grcat)' \
-        MaJinjie/grc \
+    pick'grc.zsh' lbin'(grc|grcat)' \
+        garabik/grc \
     atload'FORGIT_NO_ALIASES=false' \
     pick'/dev/null' lbin'bin/*' \
         wfxr/forgit \
@@ -127,7 +136,7 @@ zt 0b light-mode for \
         @sharkdp/lscolors \
     from'gh-r' lbin \
         dimo414/bkt \
-    atinit'[[ ! -d $Xdirs[data]/bob && ! -e $Xdirs[data]/bob ]] && mkdir $Xdirs[data]/bob' \
+    atinit'[[ ! -d $XDG_DATA_HOME/bob && ! -e $XDG_DATA_HOME/bob ]] && mkdir $XDG_DATA_HOME/bob' \
     from'gh-r' lbin \
         MordechaiHadad/bob \
     from'gh-r' lbin lman \
@@ -166,8 +175,17 @@ zt 0b light-mode for \
     lbin \
         mrowa44/emojify \
     lbin from'gh-r' \
-        jesseduffield/lazygit
-        
+        jesseduffield/lazygit \
+    lbin lman from'gh-r' \
+    mv'completions/glow.zsh -> _glow' \
+    atclone'gzip -d manpages/*.gz' atpull'%atclone' \
+        charmbracelet/glow
+
+    # atclone'cargo build --release' atpull'%atclone' \
+    # atclone'target/release/wezterm shell-completion --shell=$SHELL > _wezterm' \
+    # lbin'target/release/wezterm*(N*)' \
+    #     wez/wezterm
+    
     # from'gh-r' lbin \
     #     umlx5h/zsh-manpage-completion-generator
     
@@ -219,3 +237,11 @@ extractf 90 && zt 0c light-mode null id-as'zsh.d' nocd for multisrc="$Zdirs[zsh.
 # =======================================================================
 extractf 99 && zt light-mode null id-as'zsh.d' nocd for multisrc="$Zdirs[zsh.d]/${(@)^sourcef}" zdharma-continuum/null
 # =======================================================================
+
+# pnpm
+export PNPM_HOME="/home/majinjie/.local/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end

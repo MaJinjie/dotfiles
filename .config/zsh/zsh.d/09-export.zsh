@@ -16,7 +16,7 @@ typeset -A Const=(
 ## 1 History
 export SAVEHIST=$((2 * 10 ** 3)) # 10_000_000
 export HISTSIZE=$((1.2 * SAVEHIST))
-export HISTFILE="$Xdirs[data]/history"
+export HISTFILE="$XDG_DATA_HOME/history"
 export HIST_STAMPS="yyyy-mm-dd"
 export HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=1 # all search results returned will be unique NOTE: for what
 
@@ -49,18 +49,18 @@ export EDITOR="nvim"
 }
 #================================Program=============================
 ## 1 Rualdi
-export _RAD_ALIASES_DIR=$Xdirs[conf]/rualdi 
+export _RAD_ALIASES_DIR=$XDG_CONFIG_HOME/rualdi 
 export _RAD_NO_ECHO=1
 
 ## 2 Fzf 
 export FZF_DEFAULT_COMMAND='fd --color=always --follow -tf'
 export FZF_TMUX_OPTS='-p 70%,80%'
-export FZF_DEFAULT_OPTS="
---exact
+export FZF_DEFAULT_OPTS="\
 --marker='▍'
 --scrollbar='█'
---ellipsis=''
 --cycle
+--filepath-word # 使移动行为遵循路径分隔符
+--ignore-case
 --color='hl:yellow:bold,hl+:yellow:reverse,pointer:032,marker:010,bg+:-1,border:#808080'
 --reverse
 --info=inline
@@ -69,8 +69,8 @@ export FZF_DEFAULT_OPTS="
 --height=~80%
 --min-height=15
 --tabstop=4
---scroll-off=2
---history=$(create_directory $Xdirs[data]/fzf/history)
+--scroll-off=3
+--history=$(create_directory $XDG_DATA_HOME/fzf/history)
 --jump-labels='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 --preview-window :hidden
 --bind='home:beginning-of-line'
@@ -106,22 +106,22 @@ export BKT_TTL=1m
 export BKT_CACHE_DIR=.bkt
 
 ## 4 Dotbare
-export DOTBARE_DIR="$HOME/.cfg"
+export DOTBARE_DIR="$HOME/.dotfiles"
 export DOTBARE_TREE="$HOME"
-export DOTBARE_BACKUP="$Xdirs[data]/dotbare"
+export DOTBARE_BACKUP="$XDG_DATA_HOME/dotbare"
 # export DOTBARE_KEY
 # export DOTBARE_FZF_DEFAULT_OPTS
 # export DOTBARE_PREVIEW=
 # export DOTBARE_DIFF_PAGER
 
 ## 5 Restic
-export RESTIC_REPOSITORY=$Xdirs[data]/restic/backup
+export RESTIC_REPOSITORY=$XDG_DATA_HOME/restic/backup
 
 ## 6 Forgit
 export FORGIT_COPY_CMD="wl-copy"
 
 ## Paths
-export RIPGREP_CONFIG_PATH=$Xdirs[conf]/ripgrep/ripgreprc
-export NAP_CONFIG=$Xdirs[conf]/nap/config.yaml
-export GRAVEYARD=$Xdirs[data]/rip
+export RIPGREP_CONFIG_PATH=$XDG_CONFIG_HOME/ripgrep/ripgreprc
+export NAP_CONFIG=$XDG_CONFIG_HOME/nap/config.yaml
+export GRAVEYARD=$XDG_DATA_HOME/rip
 
