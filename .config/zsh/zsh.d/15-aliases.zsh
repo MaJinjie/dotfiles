@@ -8,6 +8,7 @@ alias .git=".D git" .lazygit=".D lazygit" .nvim=".D nvim"
 
 alias fr="fzf---find-recent-by-nvim"
 alias of="fzf---open-file --color=always -d6 -T1M"
+alias sbf="fzf---select-by-fd" sbg="fzf---select-by-grep"
 
 (($+commands[eza])) && {
     autoload -Uz after before
