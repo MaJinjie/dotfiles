@@ -1,4 +1,8 @@
 # Files/folders to ignore
+# Local
+/git/
+
+# Global
 .bkt/
 *.sh
 
