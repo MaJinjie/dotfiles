@@ -1,0 +1,8 @@
+# 在不同的tab中打开提供给neovide的文件
+tabs = false
+# 启动的neovide进程与终端分离
+fork = true
+# 禁用多重网格，浮动窗口模糊背景、平滑滚动和窗口动画
+no-multigrid = false
+
+wsl = false
