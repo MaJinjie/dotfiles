@@ -1,5 +1,5 @@
 # Configuration
-home: "$Xdirs[data]/nap"
+home: "$XDG_DATA_HOME/nap"
 default_language: cpp
 theme: nord
 
