@@ -1,0 +1,4 @@
+depth = 3
+no-bars = true
+ignore-hidden = true
+ignore-all-in-file = "$XDG_CONFIG_HOME/dust/.dust-ignore"
