@@ -1,0 +1,4 @@
+\.stowrc
+\.git
+\.gitmodules
+^/README.md
