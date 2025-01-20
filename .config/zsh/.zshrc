@@ -138,16 +138,9 @@ zplugin 2b as'null' for \
     lbin'!target/release/tokei' \
         @XAMPPRocky/tokei
 
-zplugin 2b as'null' lman"${~pattern_man}" for \
-    from'gh-r' ver'stable' bpick'nvim.appimage' \
-    atclone'chmod u+x nvim.appimage && ./nvim.appimage --appimage-extract' atpull'%atclone' \
-    lbin'!**/bin/nvim' \
-        @neovim/neovim \
-    from'gh-r' bpick'neovide.appimage' \
-    atclone'chmod u+x neovide.appimage && ./neovide.appimage --appimage-extract' atpull'%atclone' \
-    lbin'!**/bin/neovide' \
-        @neovide/neovide \
-    atclone'git submodule update --init --recursive; ./get-deps; cargo build --release;' atpull'%atclone' \
+zplugin 2b as'null' for \
+    atclone'git submodule update --init --recursive; ./get-deps; cargo build --release;
+            wezterm shell-completion --shell zsh >_wezterm' atpull'%atclone' \
     lbin'!target/release/wezterm' \
         @wez/wezterm
 
