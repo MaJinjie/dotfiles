@@ -107,7 +107,7 @@ zplugin 0b for \
 
 zplugin 0c as'null' id-as'zsh.d' nocd for src"$ZDOTDIR/zsh.d/export.zsh" zdharma-continuum/null
 
-##===========================================section zero
+##===========================================section one
 
 ##===========================================section two
 zplugin 2a from'gh-r' lbin! lman"${~pattern_man}" completions pick'/dev/null' for \
@@ -139,8 +139,7 @@ zplugin 2b as'null' for \
         @XAMPPRocky/tokei
 
 zplugin 2b as'null' for \
-    atclone'git submodule update --init --recursive; ./get-deps; cargo build --release;
-            wezterm shell-completion --shell zsh >_wezterm' atpull'%atclone' \
+    atclone'git submodule update --init --recursive; ./get-deps; cargo build --release' atpull'%atclone' \
     lbin'!target/release/wezterm' \
         @wez/wezterm
 
