@@ -1,0 +1,18 @@
+# Options
+--with-filename
+--line-number
+--column
+--no-heading
+--color=always
+--follow
+--no-binary
+--engine=pcre2
+--smart-case
+--max-columns=120
+--max-columns-preview
+
+# Type add
+--type-add=web:*.{html,css,js}*
+--type-add=csv:*.tsv
+--type-add=pyi:*.pyi
+--type-add=hx:*.hx
