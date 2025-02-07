@@ -1,0 +1,86 @@
+#!/usr/bin/zsh
+
+PLUGINS_DIR=$XDG_DATA_HOME/tmux/plugins
+
+function install() {
+    local plugin_install="$plugin_path/tpm-install"
+    if ! [[ -d "$plugin_path" && -f "$plugin_install" ]]; then
+        rm -rf "$plugin_path"
+        echo "Installing $plugin_repo"
+        if git clone --depth 1 "$plugin_url" "$plugin_path"; then
+            touch "$plugin_install"
+            echo "Installation successful."
+        else
+            echo "Installation has failed." >&2
+            false
+        fi
+    fi
+}
+
+function load() {
+    if install; then
+        local script="$plugin_path/$plugin_name.tmux"
+        
+        [[ -f $script && -x $script ]] || script=$(=ls -1 $plugin_path/*.tmux(N*) | head -1)
+        if [[ $script ]]; then
+            $script || echo "Run $script has failed!" >&2
+        else 
+            echo "Not Find $plugin_repo!" >&2
+        fi
+    fi
+}
+
+function update() {
+    if [[ -d "$plugin_path" && -f "$plugin_install" ]]; then
+        echo "Updating $plugin_repo"
+        if cd "$plugin_path" && git pull; then
+            echo "Update successful."
+        else
+            echo "Update has failed." >&2
+        fi
+    else
+        echo "$plugin_repo is not exists."
+    fi
+}
+
+function clean() {
+    if [[ -d "$plugin_path" ]]; then
+        echo "Cleaning $plugin_repo ..."
+        if rm -rf "$plugin_path"; then
+            echo "Clean successful."
+        else
+            echo "Clean has failed." >&2
+        fi
+    else
+        echo "$plugin_repo is not exists."
+    fi
+}
+
+function help() {
+    echo "Usage: $0 {install|load|update|clean} [plugin_repo]..."
+}
+
+function main {
+    if [[ $1 != (install|load|update|clean) ]]; then
+        help
+        exit 0
+    fi
+
+    if [[ -d $PLUGINS_DIR ]] || mkdir -p "$PLUGINS_DIR"; then
+    else
+        print -P "%F{160}Create directory $PLUGINS_DIR has failed.%f%b"
+        exit 1
+    fi
+
+    for plugin_repo in "${@:2}"; do
+        local plugin_url="https://github.com/$plugin_repo.git"
+        local plugin_name="${plugin_repo#*/}"
+        local plugin_path="$PLUGINS_DIR/$plugin_name"
+
+        ${1-load}
+    done
+}
+
+main "$@"
+
+# vim: set filetype=zsh :
