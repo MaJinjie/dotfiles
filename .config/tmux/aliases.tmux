@@ -70,11 +70,11 @@ set -sa command-alias fd='menu -T "choose Find Action" \
 set -sa command-alias sl='menu -T "choose Layout" \
     "Select even-horizontal layout" | "selectl even-horizontal" \
     "Select even-vertical layout" _ "selectl even-vertical" \
-    "Select main-horizontal layout" h "selectl main-horizontal" \
-    "Select main-horizontal-mirrored layout" H "selectl main-horizontal-mirrored" \
-    "Select main-vertical layout" v "selectl main-vertical" \
-    "Select main-vertical-mirrored layout" V "selectl main-vertical-mirrored" \
     "Select tiled layout" = "selectl tiled" \
+    "Select main-vertical layout" H "selectl main-vertical" \
+    "Select main-vertical-mirrored layout" L "selectl main-vertical-mirrored" \
+    "Select main-horizontal layout" K "selectl main-horizontal" \
+    "Select main-horizontal-mirrored layout" J "selectl main-horizontal-mirrored" \
 '
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ split ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

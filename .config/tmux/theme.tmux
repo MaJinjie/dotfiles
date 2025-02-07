@@ -86,7 +86,7 @@ set -g status-left-length   15 #Set the maximum length of the left component of 
 
 # center
 set -g window-status-format "#[fg=$bg,bg=#{?synchronize-panes,red,default}]$left1#[fg=default]\
- #I $left2 #W#{?window_zoomed_flag,  :#P,}#{?window_marked_flag, 󰸕,}\
+ #I $left2 #W#{?window_zoomed_flag, ,}#{?window_marked_flag, 󰸕,}\
  #[fg=$bg,reverse]$left1"
 set -gF window-status-current-format "#{window-status-format}"
 
@@ -98,8 +98,8 @@ set -g window-status-bell-style     "bg=$aqua"
 set -g window-status-separator ''
 
 # right
-set -g status-right ""
-set -g status-right-style "fg=$black,bg=$light4,bold"
+set -g status-right " T:#{client_key_table} "
+set -g status-right-style "fg=$black,bg=$purple,bold"
 set -g status-right-length 50 #Set the maximum length of the right component of the status line. 
 
 # command
