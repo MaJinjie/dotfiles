@@ -79,4 +79,4 @@ set -g @float_session_height "80%"
 #   #} -> #}
 #   #{session_name} -> #S
 
-# vim: set filetype=tmux tabstop=4 shiftwidth=4 :
+# vim: set filetype=tmux tabstop=4 shiftwidth=4 foldmethod=marker :

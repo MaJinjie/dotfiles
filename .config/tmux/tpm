@@ -1,4 +1,4 @@
-#!/usr/bin/zsh
+#!/usr/bin/bash
 
 PLUGINS_DIR=$XDG_DATA_HOME/tmux/plugins
 
@@ -20,12 +20,12 @@ function install() {
 function load() {
     if install; then
         local script="$plugin_path/$plugin_name.tmux"
-        
-        [[ -f $script && -x $script ]] || script=$(=ls -1 $plugin_path/*.tmux(N*) | head -1)
-        if [[ $script ]]; then
-            $script || echo "Run $script has failed!" >&2
-        else 
-            echo "Not Find $plugin_repo!" >&2
+
+        [[ -f "$script" && -x "$script" ]] || script=$(command ls -1 "$plugin_path"/*.tmux | head -1)
+        if [[ "$script" && -x "$script" ]]; then
+            "$script" || echo "Run $script has failed!" >&2
+        else
+            echo "Not Find executable tmux script in $plugin_repo!" >&2
         fi
     fi
 }
@@ -61,16 +61,15 @@ function help() {
 }
 
 function main {
-    if [[ $1 != (install|load|update|clean) ]]; then
+    if [[ $1 != @(install|load|update|clean) ]]; then
         help
         exit 0
     fi
 
-    if [[ -d $PLUGINS_DIR ]] || mkdir -p "$PLUGINS_DIR"; then
-    else
-        print -P "%F{160}Create directory $PLUGINS_DIR has failed.%f%b"
+    [[ -d $PLUGINS_DIR ]] || mkdir -p "$PLUGINS_DIR" || {
+        echo "Create directory $PLUGINS_DIR has failed." >&2
         exit 1
-    fi
+    }
 
     for plugin_repo in "${@:2}"; do
         local plugin_url="https://github.com/$plugin_repo.git"
@@ -83,4 +82,4 @@ function main {
 
 main "$@"
 
-# vim: set filetype=zsh :
+# vim: set filetype=sh :

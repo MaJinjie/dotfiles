@@ -59,7 +59,7 @@ set -g pane-border-style \
     fg=#{gray}}}}'  
 # set pane border format string
 set -g pane-border-format \
-"#[align=right] #{pane_current_command}  #{s|^$HOME|~:pane_start_path}\
+"#[align=right] #{pane_current_command}  #{s|^$HOME|~:pane_current_path}\
  #S:#I.#P "
 # set active pane border style
 set -g pane-active-border-style \
@@ -82,7 +82,7 @@ set -g status-bg $bg
 # left
 set -g status-left " #S #[reverse]$left1"     
 set -g status-left-style "fg=$black,bg=$light4,bold"
-set -g status-left-length   15 #Set the maximum length of the left component of the status line. 
+set -g status-left-length   40 #Set the maximum length of the left component of the status line. 
 
 # center
 set -g window-status-format "#[fg=$bg,bg=#{?synchronize-panes,red,default}]$left1#[fg=default]\
@@ -106,4 +106,4 @@ set -g status-right-length 50 #Set the maximum length of the right component of 
 set -g message-style         "fg=$white,bold,italics"                 # set stl msg style. used for msgs & command prompt
 set -gF message-command-style "#{message-style}"           # appearance of status message cmds
 
-# vim: set filetype=tmux tabstop=4 shiftwidth=4 :
+# vim: set filetype=tmux tabstop=4 shiftwidth=4 foldmethod=marker :

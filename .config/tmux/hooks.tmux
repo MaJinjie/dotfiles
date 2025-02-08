@@ -1,9 +1,19 @@
 # 浮动会话设置选项
 set-hook -g session-created { if -F '#{m:*-float,#S}' { 
-        set -t: status off 
-        set -t: pane-border-status off
-        set -t: detach-on-destroy on
-    } }
+    set status off 
+    set detach-on-destroy on
+} }
+
+set-hook -g after-new-session   { if -F '#{==:#{window_panes},1}' 'set pane-border-status off' 'set pane-border-status top' }
+set-hook -g after-new-window    { if -F '#{==:#{window_panes},1}' 'set pane-border-status off' 'set pane-border-status top' }
+set-hook -g after-split-window  { run -b "if [ #{window_panes} -gt 1 ]; then tmux set pane-border-status top; fi" }
+set-hook -g after-kill-pane     { if -F '#{==:#{window_panes},1}' 'set pane-border-status off' 'set pane-border-status top' }
+set-hook -g pane-exited         { if -F '#{==:#{window_panes},1}' 'set pane-border-status off' 'set pane-border-status top' }
+set-hook -g after-resize-pane   { 
+    if -F '#{||:#{==:#{window_panes},1},#{window_zoomed_flag}}' \
+    { set pane-border-status off } \
+    { set pane-border-status top }
+}
 
 # tmux 允许命令在触发特定事件时运行，这些事件被称为钩子（hooks）。
 # 钩子以数组选项的形式存储，数组的成员按顺序执行。
@@ -40,4 +50,4 @@ set-hook -g session-created { if -F '#{m:*-float,#S}' {
 # window-unlinked         when a window is unlinked from a session.
 # command-error           when a command fails.
 
-# vim: set filetype=tmux tabstop=4 shiftwidth=4 :
+# vim: set filetype=tmux tabstop=4 shiftwidth=4 foldmethod=marker :

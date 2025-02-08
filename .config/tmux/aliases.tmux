@@ -1,11 +1,8 @@
-set -s  command-alias reload='source ~/.config/tmux/tmux.conf; display "reload tmux config"'
+set -s  command-alias reload='source ~/.config/tmux/tmux.conf'
+set -sa command-alias w='source ~/.config/tmux/tmux.conf'
 set -sa command-alias zoom='resizep -Z'
 set -sa command-alias mark='selectp -m'
 set -sa command-alias unmark='selectp -M'
-
-# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ new ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-set -sa command-alias nw='neww'
-set -sa command-alias ns='new -c #{pane_current_path} -d'
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ kill ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 set -sa command-alias fp='menu -T "choose Direction" \
@@ -22,7 +19,6 @@ set -sa command-alias fp='menu -T "choose Direction" \
     "Last" C-l "selectp -l" \
     "Marked" m "selectp -t {marked}" \
 '
-
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ kill ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 set -sa command-alias kp='menu -T "choose Pane Action" \
     "Kill current pane" k "killp" \
@@ -30,14 +26,12 @@ set -sa command-alias kp='menu -T "choose Pane Action" \
     "Kill all panes except the current one" a "killp -a" \
     "Kill all non-specific panes" A "displayp -b \"killp -a -t%%\"" \
 '
-
 set -sa command-alias kw='menu -T "choose Window Action" \
     "Kill current window" k "killw" \
     "Kill specific window" K "command-prompt -1p \"winid:\" \"killw -t%%\"" \
     "Kill all windows except the current one" a "killw -a" \
     "Kill all non-specific windows" A "command-prompt -1p \"winid:\" \"killw -a -t%%\"" \
 '
-
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ break ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 set -sa command-alias bp='menu -T "choose Break Action" \
     "Break pane" b "breakp -a" \
@@ -89,4 +83,4 @@ set -sa command-alias ss='menu -T "Choose direction" \
   "Full Vertical Buttom Split" J "splitw -vf" \
 '    
 
-# vim: set filetype=tmux tabstop=4 shiftwidth=4 :
+# vim: set filetype=tmux tabstop=4 shiftwidth=4 foldmethod=marker :

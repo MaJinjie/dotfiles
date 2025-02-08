@@ -15,7 +15,9 @@ bind -T root -N "Toggle status bar" 'M-Space' set -t: -F status '#{?#{==:#{statu
 
 bind -T root -N "Toggle specific key-table" 'M-,' \
     menu -T "choose key-table" \
-    "resize" r "switchc -T resize"
+    "resize" r "switchc -T resize" \
+    "kill" k "switchc -T kill" \
+    "join" j "switchc -T join"
 
 # better pane move
 is_vim="ps -o state= -o comm= -t '#{pane_tty}' | grep -iqE '^[^TXZ ]+ +(\\S+\\/)?g?(view|n?vim?x?)(diff)?$'"
@@ -27,10 +29,12 @@ bind -T root -N "Navigate to right pane"   'C-l'  if "$is_vim || $is_fzf" 'send 
 bind -T root -N "Navigate to last pane"    'C-\'  if "$is_vim || $is_fzf" 'send C-\\' 'selectp -Zl'
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ prefix ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-bind -T prefix -N "Select number pane" ';' displayp -b 'selectp -t%%'
+bind -T prefix -N "Select specific pane" ';' displayp -b 'selectp -t%%'
+bind -T prefix -N "Select specific window" 'M-;' command-prompt -1p "window-id:" 'selectw -t%%'
 bind -T prefix -N "Choose window" W choose-tree -Zw
 bind -T prefix -N "Choose session" S choose-tree -Zs
-bind -T prefix -N "Rename window" R command-prompt -p "rename-window:" "renamew '%%'"
+bind -T prefix -N "Rename window" r command-prompt -p "rename-window:" "renamew '%%'"
+bind -T prefix -N "Rename session" R command-prompt -p "rename-session:" "rename '%%'"
 bind -T prefix -N "Choose buffer" '"' choose-buffer 'run "tmux saveb -b%% -|wl-copy"'
 bind -T prefix -N "Create new window or Attach to exists window" "'" command-prompt -p "focus-window:" 'neww -Sn "%%"'
 bind -T prefix -N "Kill current pane" x killp
@@ -40,18 +44,6 @@ bind -T prefix -N "Detach the current client" d detach-client
 bind -T prefix -N "Choose and detach a client from a list" D choose-client -Z
 bind -T prefix -N "Enter copy-mode" v copy-mode
 bind -T prefix -N "Toggle pane border" Space set -t: -F pane-border-status '#{?#{==:#{pane-border-status},off},top,off}'
-
-bind -T prefix -N "Attach floating shell" f \
-  if -F '#{m:*-float,#S}' { if -F '#{==:#W,shell}' detach 'neww -Sn shell' } {
-    if -F '#{N/s:#{@float_session_name}}' '' { set -t ":" -F '@float_session_name' '#S-float' }
-    run -C 'popup -E -d #{pane_current_path} -xC -yC -w#{@float_session_width} -h#{@float_session_height} "tmux new -As \"#{@float_session_name}\" -n shell"'
-  }
-
-bind -T prefix -N "Attach floating shell" m \
-  if -F '#{m:*-float,#S}' { detach } {
-    if -F '#{N/s:#{@float_session_name}}' '' { set -t ":" -F '@float_session_name' '#S-float' }
-    run -C 'popup -E -xC -yC -w#{@float_session_width} -h#{@float_session_height} "tmux new -As \"#{@float_session_name}\" -n man"'
-  }
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ copy-mode ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 bind -T copy-mode-vi  -N "Select word"                    .       send -X select-word
@@ -98,4 +90,47 @@ bind -T resize -N 'Select main-vertical-mirrored layout'    L selectl main-verti
 bind -T resize -N 'Select main-horizontal layout'           K selectl main-horizontal           \; switchc -T resize
 bind -T resize -N 'Select main-horizontal-mirrored layout'  J selectl main-horizontal-mirrored  \; switchc -T resize
 
-# vim: set filetype=tmux tabstop=4 shiftwidth=4 :
+bind -T resize -N "Select specific pane"    q displayp -b 'selectp -t%%'
+bind -T resize -N "Select specific window"  Q command-prompt -1p "window-id:" 'selectw -t%%'
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ kill ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+bind -T kill -N "Navigate to left pane"   h selectp -L \; switchc -T kill
+bind -T kill -N "Navigate to right pane"  l selectp -R \; switchc -T kill
+bind -T kill -N "Navigate to bottom pane" j selectp -D \; switchc -T kill
+bind -T kill -N "Navigate to top pane"    k selectp -U \; switchc -T kill
+bind -T kill -N "Select the prev window"  [ selectw -p \; switchc -T kill
+bind -T kill -N "Select the next window"  ] selectw -n \; switchc -T kill
+
+bind -T kill -N "Kill current pane"     p killp \; switchc -T kill
+bind -T kill -N "Kill all panes"        P killp -a \; switchc -T kill
+bind -T kill -N "Kill current window"   w killw \; switchc -T kill
+bind -T kill -N "Kill all windows"      W killw -a \; switchc -T kill
+bind -T kill -N "Kill current session"  s kill-session \; switchc -T kill
+bind -T kill -N "Kill all session"      S kill-session -a \; switchc -T kill
+
+bind -T kill -N "Kill server"           Enter kill-server \; switchc -T kill
+
+bind -T kill -N "Kill specific pane"    q displayp -b 'killp -t%%' \; switchc -T kill
+bind -T kill -N "Kill specific window"  Q command-prompt -1p "window-id:" 'killw -t%%' \; switchc -T kill
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ join ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+bind -T join -N "Navigate to left pane"   h selectp -L \; switchc -T join
+bind -T join -N "Navigate to right pane"  l selectp -R \; switchc -T join
+bind -T join -N "Navigate to bottom pane" j selectp -D \; switchc -T join
+bind -T join -N "Navigate to top pane"    k selectp -U \; switchc -T join
+bind -T join -N "Navigate to prev window" [ selectw -p \; switchc -T join
+bind -T join -N "Navigate to next window" ] selectw -n \; switchc -T join
+
+bind -T join -N "Select the source pane"  s set -gF @join-source-pane "#S:#I.#P" \; switchc -T join
+bind -T join -N "Select the source pane"  S choose-tree -Zw 'set -g @join-source-pane "%%"; switchc -T join'
+bind -T join -N "Select the target pane"  t set -gF @join-target-pane "#S:#I.#P" \; switchc -T join
+bind -T join -N "Select the target pane"  T choose-tree -Zw 'set -g @join-target-pane "%%"; switchc -T join'
+
+bind -T join -N "add params"  -     command-prompt -p "joinp-params(hvbfdl<size>):" 'set -g @join-params "%%"' \; switchc -T join
+bind -T join -N "exec joinp"  enter run -C 'joinp #{?@join-params,-#{@join-params},} -s#{@join-source-pane} -t#{@join-target-pane}' \; switchc -T join
+
+bind -T resize -N "Select specific pane"    q displayp -b 'selectp -t%%'
+bind -T resize -N "Select specific window"  Q command-prompt -1p "window-id:" 'selectw -t%%'
+
+
+# vim: set filetype=tmux tabstop=4 shiftwidth=4 foldmethod=marker :
