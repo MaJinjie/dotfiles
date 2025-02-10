@@ -5,11 +5,10 @@ blacklist = ["scratch"]
 preview_command = "bkt --stale 30s -- eza -TF -L2 --follow-symlinks --icons --color=always {}"
 
 [[session]]
-name = "tmux-config"
-path = "~/.config/tmux"
-startup_command = "nvim"
+name = "config"
+path = "~/.config"
 
 [[session]]
-name = "nvim-config"
-path = "~/.config/nvim"
-startup_command = "nvim"
+name = "dotfiles"
+path = "~/dotfiles"
+startup_command = "echo $XDG_CONFIG_HOME"
