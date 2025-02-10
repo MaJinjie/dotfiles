@@ -1,4 +1,4 @@
 --verbose
-
+--ignore=hypr
 
 # vim:set filetype=conf :
