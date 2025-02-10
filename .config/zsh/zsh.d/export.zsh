@@ -56,18 +56,6 @@ export ZSH_AUTOSUGGEST_MANUAL_REBIND=set
 export ZSH_AUTOSUGGEST_COMPLETION_IGNORE="[[:space:]]*"
 export ZSH_AUTOSUGGEST_HISTORY_IGNORE=("?(#c1,3)" "?(#c73,)")
 
-#-------------------------------- zsh-history-substring-search
-export HISTORY_SUBSTRING_SEARCH_GLOBBING_FLAGS="i"
-export HISTORY_SUBSTRING_SEARCH_FUZZY=
-export HISTORY_SUBSTRING_SEARCH_PREFIXED=
-export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_TIMEOUT=1
-export HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=true
-
-#-------------------------------- per-directory-history
-export HISTORY_BASE="$XDG_DATA_HOME/per_directory_history"
-export HISTORY_START_WITH_GLOBAL=false
-export PER_DIRECTORY_HISTORY_TOGGLE=^X^G
-
 #================================ Builtin =============================
 () {
     autoload -Uz colors; colors

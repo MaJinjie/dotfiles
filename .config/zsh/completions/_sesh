@@ -1,0 +1,105 @@
+#compdef sesh
+
+_sesh() {
+  local -a commands
+  commands=(
+    'list:List sessions'
+    'last:Connect to the last tmux session'
+    'connect:Connect to the given session'
+    'clone:Clone a git repo and connect to it as a session'
+    'root:Show the root from the active session'
+    'preview:Preview a session or directory'
+    'help:Shows a list of commands or help for one command'
+  )
+
+  local -a global_opts
+  global_opts=(
+    '--help[Show help]'
+    '--version[Print the version]'
+  )
+
+  _arguments -s \
+    '1: :->cmds' \
+    '*:: :->args'
+
+  case $state in
+    cmds)
+      _describe 'commands' commands
+      ;;
+    args)
+      case $words[1] in
+        list)
+          if [[ $words[2] != -* ]]; then
+            return
+          fi
+          _arguments \
+            '-c[Show configured sessions]' \
+            '-j[Output as JSON]' \
+            '-t[Show tmux sessions]' \
+            '-z[Show zoxide results]' \
+            '-H[Do not show currently attached sessions]' \
+            '-i[Show icons]' \
+            '-T[Show tmuxinator configs]' \
+            '-d[Hide duplicate entries]' \
+            '--config[Show configured sessions]' \
+            '--json[Output as JSON]' \
+            '--tmux[Show tmux sessions]' \
+            '--zoxide[Show zoxide results]' \
+            '--hide-attached[Do not show currently attached sessions]' \
+            '--icons[Show icons]' \
+            '--tmuxinator[Show tmuxinator configs]' \
+            '--hide-duplicates[Hide duplicate entries]' \
+            '--help[Show help]'
+          ;;
+        last)
+          if [[ $words[2] != -* ]]; then
+            return
+          fi
+          _arguments '-h[Show help]' '--help[Show help]'
+          ;;
+        connect)
+          if [[ $words[2] != -* ]]; then
+            return
+          fi
+          _arguments \
+            '-s[Switch the session (rather than attach)]' \
+            '-c[Execute a command when connecting to a new session]' \
+            '-T[Use tmuxinator to start session if it does not exist]' \
+            '-r[Switch to the root of the current session]' \
+            '-h[Show help]' \
+            '--switch[Switch the session (rather than attach)]' \
+            '--command[Execute a command when connecting to a new session]' \
+            '--tmuxinator[Use tmuxinator to start session if it does not exist]' \
+            '--root[Switch to the root of the current session]' \
+            '--help[Show help]'
+          ;;
+        clone)
+          if [[ $words[2] != -* ]]; then
+            return
+          fi
+          _arguments \
+            '-c[The directory to run the git command in]' \
+            '-d[The name of the directory that git is creating]' \
+            '-h[Show help]' \
+            '--cmdDir[The directory to run the git command in]' \
+            '--dir[The name of the directory that git is creating]' \
+            '--help[Show help]'
+          ;;
+        root)
+          if [[ $words[2] != -* ]]; then
+            return
+          fi
+          _arguments '-h[Show help]' '--help[Show help]'
+          ;;
+        preview)
+          if [[ $words[2] != -* ]]; then
+            return
+          fi
+          _arguments '-h[Show help]' '--help[Show help]'
+          ;;
+      esac
+      ;;
+  esac
+}
+
+compdef _sesh sesh

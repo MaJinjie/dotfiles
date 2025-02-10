@@ -16,16 +16,16 @@ zstyle ':fzf-tab:*' fzf-command fzf
 zstyle ':fzf-tab:*' use-fzf-default-opts "yes"
 zstyle ':fzf-tab:*' fzf-min-height 10
 zstyle ':fzf-tab:*' fzf-pad 4
-zstyle ':fzf-tab:*' fzf-flags --preview-window=hidden
+zstyle ':fzf-tab:*' fzf-flags '--preview-window=hidden'
 zstyle ':fzf-tab:*' print-query ctrl-q
 zstyle ':fzf-tab:*' accept-line alt-enter
 zstyle ':fzf-tab:*' continuous-trigger '/'
 
 
-zstyle ':fzf-tab:complete:(nvim|eza|z|cd|ls):*' fzf-flags '--preview-window=nohidden,right:60%:wrap'
+zstyle ':fzf-tab:complete:(nvim|eza|z|cd|ls):*' fzf-flags '--preview-window=hidden,right:60%:wrap'
 zstyle ':fzf-tab:complete:(nvim|eza|z|cd|ls):*' fzf-preview \
     'r=$realpath; \
-    ([[ -f $r ]] && bat --style=numbers --color=always $r) \
+    ([[ -f $r ]] && bat --color=always $r) \
     || ([[ -d $r ]] && bkt --stale 30s -- eza -1F --icons --color=always $r | less) || (echo $r 2> /dev/null | head -200)'
 
 

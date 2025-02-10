@@ -6,10 +6,9 @@
 setopt APPEND_HISTORY
 setopt HIST_BEEP
 setopt HIST_FIND_NO_DUPS      # 在行编辑历史中不搜索重复项，即使重复项不连续
-setopt HIST_IGNORE_ALL_DUPS   # 新命令与旧命令重复，则删除旧命令
+# setopt HIST_IGNORE_ALL_DUPS   # 新命令与旧命令重复，则删除旧命令
 # setopt HIST_IGNORE_DUPS       # 命令行和前一个重复，则不写入历史记录
 setopt HIST_IGNORE_SPACE      # 命令行第一个字符是空格，就把它从历史记录中删除
-                              # 我们可以利用这个特性，执行一些命令却不加入历史记录
 setopt HIST_LEX_WORDS         # 能够正确处理包含空格的引号字符串，但可能会很慢
 setopt HIST_NO_STORE          # 从历史记录中删除history(fc -l)命令
 setopt HIST_REDUCE_BLANKS     # 删除命令行中多于的空格
@@ -19,10 +18,10 @@ setopt HIST_FCNTL_LOCK        # use fcntl to lock hist file
 setopt HIST_SUBST_PATTERN     # allow :s/:& to use patterns instead of strings
 
 #============================= completion
-setopt COMPLETE_ALIASES       # 不去扩展别名
+# setopt COMPLETE_ALIASES       # 不去扩展别名
 setopt COMPLETE_IN_WORD       # 允许在单词中间进行补全，而不是只在末尾
 setopt ALWAYS_TO_END          # 补全完成后，光标移动到补全结果的末尾
-# setopt MENU_COMPLETE          # 当补全结果有歧义时，从菜单中选择第一个匹配项作为默认补全 (non-fzf-tab)
+setopt MENU_COMPLETE          # 当补全结果有歧义时，从菜单中选择第一个匹配项作为默认补全 (non-fzf-tab)
 setopt AUTO_MENU              # 自动启用菜单补全，在有多个候选项时，直接显示菜单 (non-fzf-tab)
 setopt LIST_TYPES             # 在补全列表中显示文件类型的指示符
 setopt LIST_PACKED            # 补全列表中不要求列宽相等，更紧凑地显示结果
@@ -38,13 +37,13 @@ setopt AUTO_PUSHD             # 将旧目录自动推送到堆栈上
 setopt PUSHD_IGNORE_DUPS      # 不要将同一个目录推送到堆栈上
 setopt CDABLE_VARS            # 不是目录是一个名称，名称的值是目录，cd过去
 setopt CD_SILENT PUSHD_SILENT # 不要在cd后或pushd后打印工作目录
-setopt CHASE_DOTS             # /foo/bar -> /alt/rod cd /foo/bar/.. -> /alt
+# setopt CHASE_DOTS             # /foo/bar -> /alt/rod cd /foo/bar/.. -> /alt
 
 #============================= globbing
 setopt BARE_GLOB_QUAL         # 模式后面括号不包含(| ( ~),则视为限定符列表
 setopt EXTENDED_GLOB          # 启用扩展的 glob 模式，允许使用更多高级匹配符
 setopt REMATCH_PCRE           # when using =~ 启用 Perl 兼容正则表达式（PCRE）进行模式匹配
-setopt KSH_GLOB               # @ * + ? !
+# setopt KSH_GLOB               # @ * + ? !
 setopt CASE_GLOB              # case insensitive globbing
 setopt CASE_MATCH             # when using =~ make expression sensitive to case
 

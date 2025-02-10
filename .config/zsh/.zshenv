@@ -1,18 +1,19 @@
 #================================ Builtin =============================
-#-------------------------------- default
 export TERMINAL="alacritty"
 export BROWSER="firefox"
 export VISUAL="nvim"
 export EDITOR="nvim"
 
-#-------------------------------- history
-export SAVEHIST=$((2 * 10 ** 3)) # 10_000_000
+export SAVEHIST=$((5 * 10 ** 3))
 export HISTSIZE=$((1.2 * SAVEHIST))
 export HISTFILE="$XDG_DATA_HOME/history"
 export HIST_STAMPS="yyyy-mm-dd"
-export HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=1 # all search results returned will be unique NOTE: for what
+export HISTORY_IGNORE="(?(#c,5)|history)"
 
-#-------------------------------- other
+# export CORRECT_IGNORE=""
+
+export CDPATH="$XDG_CONFIG_HOME"
+
 export SIMPLE_BACKUP_SUFFIX=bak
 export VERSION_CONTROL=numbered # existing simple
 [[ $LS_COLORS ]] || export LS_COLORS="$(vivid generate kimbie)"
@@ -57,15 +58,18 @@ export FZF_DEFAULT_OPTS='
 --scroll-off=3
 --ignore-case
 --history=/tmp/fzf-history
---with-shell="/usr/bin/bash -c"
---preview="bat --color=always {}"
-
---bind="ctrl-h:ignore"
---bind="ctrl-l:ignore"
-
+--preview="
+    r={}; r=${~r}; \
+    ([[ -f $r ]] && bat --color=always $r) || 
+    ([[ -d $r ]] && bkt --stale 30s -- eza -1F --icons --color=always $r | less) || 
+    (echo $r 2> /dev/null | head -200)
+"
 --bind="tab:toggle-down,btab:toggle+up,ctrl-o:toggle-all"
+
+--bind="ctrl-h:jump"
+--bind="ctrl-l:clear-selection+first"
 --bind="ctrl-k:up,ctrl-j:down"
---bind="ctrl-d:half-page-down,ctrl-u:half-page-up"
+--bind="ctrl-d:half-page-down"
 --bind="ctrl-p:previous-history,ctrl-n:next-history"
 
 --bind="ctrl-/:toggle-preview"
@@ -75,19 +79,12 @@ export FZF_DEFAULT_OPTS='
 --bind="enter:accept"
 '
 
-#================================ PATH FPATH =============================
+#================================ PATH =============================
 export -UT PATH path
-export -UT FPATH fpath
 
 path=(
     "${ZPFX-$ZINIT_HOME/polaris}/bin"
     "$CARGO_HOME/bin"
     "${=^${(s/:/)GEM_PATH}}/bin"
     "${path[@]}"
-)
-
-fpath=(
-    "$ZDOTDIR/completions"
-    "$ZINIT_HOME/completions"
-    "${fpath[@]}"
 )

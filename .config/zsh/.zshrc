@@ -31,7 +31,7 @@ declare -A ZINIT=(
     PLUGINS_DIR     "$ZINIT_HOME/plugins"
     COMPLETIONS_DIR "$ZINIT_HOME/completions"
     SNIPPETS_DIR    "$ZINIT_HOME/snippets"
-    ZCOMPDUMP_PATH  "$ZINIT_HOME/.zcompdump"
+    ZCOMPDUMP_PATH  "$XDG_CACHE_HOME/.zcompdump"
     LIST_COMMAND    "tree -C"
     COMPINIT_OPTS   -C
     MUTE_WARNINGS   0
@@ -52,7 +52,7 @@ declare -A ZINIT=(
 
 local pattern_man='**/man*/*.([1-9].gz|[1-9])(Nnon.f:a+r,a-x:)'
 
-function zplugin { zinit light-mode id-as depth'1' ${=1/#[0-9][0-9a-c]/wait${1} lucid} "${@:2}"; }
+function zplugin { zinit light-mode id-as depth'1' nocompletions ${=1/#[0-9][0-9a-d]/wait${1} lucid} "${@:2}"; }
 function zmanpage { 
     function convert_to_man { 
         local f b e
@@ -68,7 +68,7 @@ function zmanpage {
         esac
         done
     }
-    zinit light-mode depth'1' as'null' lman"${~pattern_man}" atclone'convert_to_man' atpull'%atclone' ${=1/#[0-9][0-9a-c]/wait${1} lucid} "${@:2}" 
+    zinit light-mode depth'1' as'null' lman"${~pattern_man}" atclone'convert_to_man' atpull'%atclone' ${=1/#[0-9][0-9a-d]/wait${1} lucid} "${@:2}" 
 }
 function zcompletion { zinit ice as'completion' pick'/dev/null' id-as"${1}"; zinit snippet ${2}; }
 
@@ -78,7 +78,7 @@ zplugin for \
 
 zplugin for atload'[[ -f $ZDOTDIR/.p10k.zsh ]] && source $ZDOTDIR/.p10k.zsh' romkatv/powerlevel10k
 
-zplugin as'null' id-as'zsh.d' nocd for multisrc"$ZDOTDIR/zsh.d/{options,aliases,keymaps}.zsh" zdharma-continuum/null
+zplugin 00 as'null' id-as'zsh.d' nocd for multisrc"$ZDOTDIR/zsh.d/{options,aliases,keymaps,autoload}.zsh" zdharma-continuum/null
 
 ##===========================================section zero
 zplugin 0a for \
@@ -87,15 +87,27 @@ zplugin 0a for \
     blockf \
         zsh-users/zsh-completions \
     atload"!_zsh_autosuggest_start" \
-        zsh-users/zsh-autosuggestions
+        zsh-users/zsh-autosuggestions \
+        larkery/zsh-histdb \
+    blockf \
+    atload"[[ ! -f build-fzf-tab-module ]] && build-fzf-tab-module && touch build-fzf-tab-module" \
+        Aloxaf/fzf-tab
+
+zplugin 0a as'null' id-as'zsh.d' nocd for src"$ZDOTDIR/zsh.d/completions.zsh" zdharma-continuum/null
 
 zplugin 0b for \
-    atload"bindkey -M viins '^P'  history-substring-search-up; bindkey -M viins '^N' history-substring-search-down" \
+    atload' bindkey "^P" history-substring-search-up; bindkey "^N" history-substring-search-down
+            export HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=1' \
         zsh-users/zsh-history-substring-search \
+    atinit" export HISTORY_BASE=$XDG_DATA_HOME/per_directory_history HISTORY_START_WITH_GLOBAL=false" \
+    atload" bindkey -M viins '^G' per-directory-history-toggle-history" \
         jimhester/per-directory-history \
         zdharma-continuum/history-search-multi-word \
-        hlissner/zsh-autopair \
-    atload" zstyle :zle:evil-registers:'[A-Za-z%#]' editor $EDITOR
+    atload" bindkey -M vicmd ' ' zce
+            zstyle ':zce:*' bg 'fg=8,bold'
+            zstyle ':zce:*' search-case smartcase" \
+        hchbaw/zce.zsh \
+    atload"zstyle :zle:evil-registers:'[A-Za-z%#]' editor $EDITOR
             zstyle :zle:evil-registers:'\*' put  - wl-paste -p
             zstyle :zle:evil-registers:'+'  put  - wl-paste
             zstyle :zle:evil-registers:'\*' yank - wl-copy -p
@@ -111,6 +123,11 @@ zplugin 0c as'null' id-as'zsh.d' nocd for src"$ZDOTDIR/zsh.d/export.zsh" zdharma
 
 ##===========================================section two
 zplugin 2a from'gh-r' lbin! lman"${~pattern_man}" completions pick'/dev/null' for \
+    atinit"export _ZO_ECHO=1 _ZO_EXCLUDE_DIRS='$HOME'" \
+    eval"zoxide init zsh" \
+        @ajeetdsouza/zoxide \
+    atinit"export BKT_TTL=1m" \
+        @dimo414/bkt \
         @sharkdp/vivid \
         @sharkdp/fd \
     mv'**/bat.zsh -> _bat' \
@@ -126,12 +143,7 @@ zplugin 2a from'gh-r' lbin! lman"${~pattern_man}" completions pick'/dev/null' fo
         @bootandy/dust \
     mv'jq* -> jq' \
         @jqlang/jq \
-        @jgm/pandoc \
-    mv'direnv* -> direnv' eval'./direnv hook zsh' \
-        @direnv/direnv \
-        @pemistahl/grex \
-    atclone'./procs --gen-completion' atpull'%atclone' \
-        @dalance/procs
+        @jgm/pandoc
 
 zplugin 2b as'null' for \
     atclone'cargo build --release --all-features' atpull'%atclone' \
@@ -143,7 +155,12 @@ zplugin 2b as'null' for \
     lbin'!target/release/wezterm' \
         @wez/wezterm
 
-zplugin 2c as'null' id-as'gem' gem'asciidoctor' sbin'g:asciidoctor' for zdharma-continuum/null
+zplugin 2c as'null' id-as'gem' \
+    gem'asciidoctor;tmuxinator;' \
+    sbin'g:asciidoctor;g:tmuxinator;' \
+    for zdharma-continuum/null
+
+zplugin 2d as'null' id-as'zsh.d' nocd for src"$ZDOTDIR/zsh.d/aliases.zsh" zdharma-continuum/null
     
 ##===========================================section three
 zmanpage 3a for \
@@ -155,5 +172,6 @@ zmanpage 3a for \
     
 zcompletion _eza https://github.com/eza-community/eza/blob/main/completions/zsh/_eza
 zcompletion _dust https://github.com/bootandy/dust/blob/master/completions/_dust
+zcompletion _tmuxinator https://raw.githubusercontent.com/tmuxinator/tmuxinator/master/completion/tmuxinator.zsh
 
 unset -f zplugin zmanpage zcompletion

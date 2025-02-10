@@ -1,0 +1,29 @@
+exec </dev/tty
+exec <&1
+
+local session
+
+if [[ $1 == -r ]]; then
+    session=$(sesh root)
+else
+    session=$(sesh list "${@:--cz}" --icons --hide-duplicates | fzf --tmux center,100%,70% \
+        --no-sort --ansi \
+        --border-label ' sesh ' --prompt '⚡all> ' \
+        --header '^t-tmux a-all t-tmuxinator c-configs z-zoxide d-kill f-find' \
+        --bind 'tab:down,btab:up' \
+        --bind 'alt-a:change-prompt(⚡all> )+reload(sesh list --icons  --hide-duplicates)' \
+        --bind 'ctrl-t:change-prompt(🪟tmux> )+reload(sesh list -t --icons)' \
+        --bind 'alt-t:change-prompt(󱂬 tmuxinator> )+reload(sesh list -T --icons)' \
+        --bind 'alt-c:change-prompt(⚙️ config> )+reload(sesh list -c --icons)' \
+        --bind 'alt-z:change-prompt(ℤ zoxide> )+reload(sesh list -z --icons)' \
+        --bind 'alt-f:change-prompt( find> )+reload(fd -H -d 2 -td)' \
+        --bind 'alt-d:execute(tmux kill-session -t {2..})+change-prompt(⚡  )+reload(sesh list --icons)' \
+        --preview-window 'right:55%' \
+        --preview 'sesh preview {}') && echo "$session"
+fi
+
+zle reset-prompt > /dev/null 2>&1 || true
+[[ -z "$session" ]] && return
+sesh connect $session
+
+# vim: set filetype=zsh :
