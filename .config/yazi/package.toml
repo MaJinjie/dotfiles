@@ -53,6 +53,31 @@ use = "dedukun/bookmarks"
 rev = "95b2c58"
 hash = "17a094653b7d0db4ac68ed531d2e1412"
 
+[[plugin.deps]]
+use = "MaJinjie/yazi-plugins:better-visual"
+rev = "d1ce194"
+hash = "891e0d5b3d643d94ad170792ac09fc1"
+
+[[plugin.deps]]
+use = "MaJinjie/yazi-plugins:better-filter"
+rev = "d1ce194"
+hash = "18548936560b7d2624a7178642e67001"
+
+[[plugin.deps]]
+use = "MaJinjie/yazi-plugins:better-enter"
+rev = "d1ce194"
+hash = "e7a273e922fefee806f4e1108f0fbc8d"
+
+[[plugin.deps]]
+use = "MaJinjie/yazi-plugins:find-files"
+rev = "d1ce194"
+hash = "299e1d417e12c8f6b2ea41d5af42f7b4"
+
+[[plugin.deps]]
+use = "MaJinjie/yazi-plugins:grep-files"
+rev = "d1ce194"
+hash = "24f2ba5fb0e4c80e87c26a9c328429dd"
+
 [[flavor.deps]]
 use = "BennyOe/tokyo-night"
 rev = "695dac6"
