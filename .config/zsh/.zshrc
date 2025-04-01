@@ -52,7 +52,7 @@ declare -A ZINIT=(
 
 local pattern_man='**/man*/*.([1-9].gz|[1-9])(Nnon.f:a+r,a-x:)'
 
-function zplugin { zinit light-mode id-as depth'1' nocompletions ${=1/#[0-9][0-9a-d]/wait${1} lucid} "${@:2}"; }
+function zplugin { zinit light-mode id-as depth'1' nocompletions ${=1/#(\!|)[0-9][0-9a-d]/wait${1} lucid} "${@:2}"; }
 function zmanpage { 
     function convert_to_man { 
         local f b e
@@ -76,7 +76,8 @@ zplugin for \
     NICHOLAS85/{z-a-eval,z-a-linkbin,z-a-linkman} \
     zdharma-continuum/zinit-annex-{bin-gem-node,man,rust,readurl,patch-dl,submods,test}
 
-zplugin for atload'[[ -f $ZDOTDIR/.p10k.zsh ]] && source $ZDOTDIR/.p10k.zsh' romkatv/powerlevel10k
+zplugin reset-prompt id-as'theme-p10k' if'[[ $ZSH_THEME == p10k ]]' src"$P10K_CONFIG" for romkatv/powerlevel10k
+zplugin reset-prompt id-as'theme-starship' has'starship' if'[[ $ZSH_THEME == starship ]]' eval'starship init zsh' for zdharma-continuum/null
 
 zplugin 00 as'null' id-as'zsh.d' nocd for multisrc"$ZDOTDIR/zsh.d/{options,aliases,keymaps,autoload}.zsh" zdharma-continuum/null
 
@@ -103,7 +104,7 @@ zplugin 0b for \
     atload" bindkey -M viins '^G' per-directory-history-toggle-history" \
         jimhester/per-directory-history \
         zdharma-continuum/history-search-multi-word \
-    atload" bindkey -M vicmd ' ' zce
+    atload" bindkey -M vicmd s zce
             zstyle ':zce:*' bg 'fg=8,bold'
             zstyle ':zce:*' search-case smartcase" \
         hchbaw/zce.zsh \
@@ -124,8 +125,10 @@ zplugin 0c as'null' id-as'zsh.d' nocd for src"$ZDOTDIR/zsh.d/export.zsh" zdharma
 ##===========================================section two
 zplugin 2a from'gh-r' lbin! lman"${~pattern_man}" completions pick'/dev/null' for \
     atinit"export _ZO_ECHO=1 _ZO_EXCLUDE_DIRS='$HOME'" \
-    eval"zoxide init zsh" \
+    eval"zoxide init --cmd cd zsh" \
         @ajeetdsouza/zoxide \
+    eval'direnv hook zsh' \
+        @direnv/direnv \
     atinit"export BKT_TTL=1m" \
         @dimo414/bkt \
         @sharkdp/vivid \
@@ -143,17 +146,14 @@ zplugin 2a from'gh-r' lbin! lman"${~pattern_man}" completions pick'/dev/null' fo
         @bootandy/dust \
     mv'jq* -> jq' \
         @jqlang/jq \
-        @jgm/pandoc
+        @jgm/pandoc \
+    mv'chezmoi* -> chezmoi' \
+        @twpayne/chezmoi
 
 zplugin 2b as'null' for \
     atclone'cargo build --release --all-features' atpull'%atclone' \
     lbin'!target/release/tokei' \
         @XAMPPRocky/tokei
-
-zplugin 2b as'null' for \
-    atclone'git submodule update --init --recursive; ./get-deps; cargo build --release' atpull'%atclone' \
-    lbin'!target/release/wezterm' \
-        @wez/wezterm
 
 zplugin 2c as'null' id-as'gem' \
     gem'asciidoctor;tmuxinator;' \

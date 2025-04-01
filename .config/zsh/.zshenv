@@ -1,4 +1,4 @@
-#================================ Builtin =============================
+#================================ Internal =============================
 export TERMINAL="alacritty"
 export BROWSER="firefox"
 export VISUAL="nvim"
@@ -18,13 +18,19 @@ export SIMPLE_BACKUP_SUFFIX=bak
 export VERSION_CONTROL=numbered # existing simple
 [[ $LS_COLORS ]] || export LS_COLORS="$(vivid generate kimbie)"
 
-#================================ Program =============================
+#================================ External =============================
+export ZSH_THEME="p10k" # starship p10k
+
 #-------------------------------- zinit
 export ZINIT_HOME="$XDG_DATA_HOME/zinit"
 
 #-------------------------------- gem
 [[ $GEM_HOME ]] || export GEM_HOME="$(ruby -e 'puts Gem.user_dir')" # gem安装的主目录
 [[ $GEM_PATH ]] || export GEM_PATH="$(ruby -e 'puts Gem.path')" # gem的查找路径列表
+
+#-------------------------------- theme
+export STARSHIP_CONFIG="$XDG_CONFIG_HOME/zsh/theme/starship.toml"
+export P10K_CONFIG="$XDG_CONFIG_HOME/zsh/theme/p10k.zsh"
 
 #-------------------------------- rust
 export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
@@ -48,43 +54,33 @@ export FZF_DEFAULT_OPTS='
 --marker="▍"
 --scrollbar="█"
 --info=inline
---height=~60%
---min-height=15
 --layout=reverse
 --color="hl:yellow:bold,hl+:yellow:reverse,pointer:032,marker:010,bg+:-1,border:#808080"
 --cycle
 --ansi
 --tabstop=4
---scroll-off=3
---ignore-case
+--scroll-off=4
 --history=/tmp/fzf-history
 --preview="
     r={}; r=${~r}; \
-    ([[ -f $r ]] && bat --color=always $r) || 
+    ([[ -f $r ]] && bat --color=always --number $r) || 
     ([[ -d $r ]] && bkt --stale 30s -- eza -1F --icons --color=always $r | less) || 
     (echo $r 2> /dev/null | head -200)
 "
---bind="tab:toggle-down,btab:toggle+up,ctrl-o:toggle-all"
-
---bind="ctrl-h:jump"
---bind="ctrl-l:clear-selection+first"
---bind="ctrl-k:up,ctrl-j:down"
+--bind="alt-w:toggle-wrap,alt-a:toggle-all,alt-p:toggle-preview"
 --bind="ctrl-d:half-page-down"
---bind="ctrl-p:previous-history,ctrl-n:next-history"
-
---bind="ctrl-/:toggle-preview"
---bind="ctrl-b:preview-page-up,ctrl-f:preview-page-down"
-
+--bind="ctrl-b:preview-half-page-up,ctrl-f:preview-half-page-down"
 --bind="ctrl-y:execute-silent(wl-copy -n {+})"
---bind="enter:accept"
 '
 
 #================================ PATH =============================
 export -UT PATH path
 
 path=(
+    "$XDG_BIN_HOME"
     "${ZPFX-$ZINIT_HOME/polaris}/bin"
+    "$XDG_DATA_HOME/mason/bin"
     "$CARGO_HOME/bin"
     "${=^${(s/:/)GEM_PATH}}/bin"
-    "${path[@]}"
+    "${(@)path}"
 )

@@ -1,10 +1,3 @@
-bindkey -v
-
-bindkey '^A' beginning-of-line
-bindkey '^E' end-of-line
-
-bindkey 'j' _fast_exit_vi_j
-bindkey 'k' _fast_exit_vi_k
 () {
     typeset -i last_time
 
@@ -31,4 +24,10 @@ bindkey 'k' _fast_exit_vi_k
     zle -N _fast_exit_vi_j
     zle -N _fast_exit_vi_k
 }
-bindkey '^Xh' _complete_help
+
+bindkey -M viins 'j' _fast_exit_vi_j
+bindkey -M viins 'k' _fast_exit_vi_k
+# bindkey -M viins '^[l' autosuggest-accept
+bindkey -M viins '^Xh' _complete_help
+
+bindkey -M vicmd Y vi-yank-eol

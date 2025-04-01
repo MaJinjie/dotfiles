@@ -91,6 +91,7 @@ render_timer = false
 # 按键绑定
 [keyboard]
 bindings = [
+  # { key = 'Tab', mods = 'Shift', chars = '\x1b[Z' },
   # { key = "V", mods = "Control", mode = '~Vi', action = 'Paste' },
   # { key = "P", mods = "None", mode = 'Vi',  action = 'Paste' },
   # { key = "+", mods = "Control", action = "IncreaseFontSize" },
